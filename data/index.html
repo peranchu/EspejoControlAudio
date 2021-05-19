@@ -84,10 +84,48 @@
   <div class="container section">
     <div class="row">
       <div class="col s12">
-        <ul class="collapsible popout">
-          <!--ENFADADO-->
+        <!---------------Reproductor--------------------->
+        <table class="hide" id="t_repro">
+          <thead>
+            <tr style="background-color: #f3e5f5;">
+              <th>Reproduciendo</th>
+              <th>Volumen</th>
+              <th>Stop</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="oculta_repro"></td>
+              <!--Nombre fichero-->
+              <td>
+                <!--slider volumen-->
+                <form action="">
+                  <p class="range-field">
+                    <input type="range" id="vol" min="0" max="21" value="10">
+                  </p>
+                </form>
+              </td>
+
+              <td>
+                <a class="btn-floating waves-effect waves-light red lighten-1" onclick="StopSD()">
+                  <i class="material-icons">stop</i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!--------------Fin reproductor----------------------->
+      </div>
+    </div>
+  </div>
+  <!--------------ARCHIVOS DIRECTORIOS SD------------------->
+  <div class="container section">
+    <div class="row">
+      <div class="col s12">
+        <ul class="collapsible">
+          <!------------ENFADADO------------------>
           <li>
-            <div class="collapsible-header" id="Enfadado" value="1">
+            <div class="collapsible-header" id="Enfadado">
               <i class="material-icons">sentiment_dissatisfied</i>
               Enfadado
               <span class="new badge red">4</span>
@@ -102,18 +140,19 @@
                   </tr>
                 </thead>
                 <tbody id="list_Enfadado">
-
+                  <tr>
+                    <!--Nombre ficheros-->
+                  </tr>
                 </tbody>
               </table>
             </div>
           </li>
-
-          <!--DISGUSTADO-->
+          <!----------------DISGUSTADO------------>
           <li>
             <div class="collapsible-header" id="Disgustado">
-              <i class="material-icons">place</i>
+              <i class="material-icons">sentiment_dissatisfied</i>
               Disgustado
-              <span class="badge">1</span>
+              <span class="new badge red">4</span>
             </div>
             <div class="collapsible-body">
               <table class="centered">
@@ -125,38 +164,138 @@
                   </tr>
                 </thead>
                 <tbody id="list_Disgustado">
-
+                  <tr>
+                    <!--Nombre ficheros-->
+                  </tr>
                 </tbody>
+              </table>
             </div>
           </li>
-          <!--TEMEROSO-->
-
+          <!-------------TEMEROSO---------------->
+          <li>
+            <div class="collapsible-header" id="Temeroso">
+              <i class="material-icons">sentiment_dissatisfied</i>
+              Temeroso
+              <span class="new badge red">4</span>
+            </div>
+            <div class="collapsible-body">
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>Play</th>
+                    <th>Título</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="list_Temeroso">
+                  <tr>
+                    <!--Nombre ficheros-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+          <!--------------FELIZ----------------->
+          <li>
+            <div class="collapsible-header" id="Feliz">
+              <i class="material-icons">sentiment_dissatisfied</i>
+              Feliz
+              <span class="new badge red">4</span>
+            </div>
+            <div class="collapsible-body">
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>Play</th>
+                    <th>Título</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="list_Feliz">
+                  <tr>
+                    <!--Nombre ficheros-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+          <!--------------NEUTRAL------------->
+          <li>
+            <div class="collapsible-header" id="Neutral">
+              <i class="material-icons">sentiment_dissatisfied</i>
+              Neutral
+              <span class="new badge red">4</span>
+            </div>
+            <div class="collapsible-body">
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>Play</th>
+                    <th>Título</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="list_Neutral">
+                  <tr>
+                    <!--Nombre ficheros-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+          <!-------------TRISTE-------------->
+          <li>
+            <div class="collapsible-header" id="Triste">
+              <i class="material-icons">sentiment_dissatisfied</i>
+              Triste
+              <span class="new badge red">4</span>
+            </div>
+            <div class="collapsible-body">
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>Play</th>
+                    <th>Título</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="list_Triste">
+                  <tr>
+                    <!--Nombre ficheros-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+          <!------------SORPRENDIDO----------->
+          <li>
+            <div class="collapsible-header" id="Sorprendido">
+              <i class="material-icons">sentiment_dissatisfied</i>
+              Sorprendido
+              <span class="new badge red">4</span>
+            </div>
+            <div class="collapsible-body">
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>Play</th>
+                    <th>Título</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="list_Sorprendido">
+                  <tr>
+                    <!--Nombre ficheros-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!----------------------BOTON STOP---------------------------->
-
-
-  <!------------------------TEMPLATE------------------------------------>
-  <template id="template-contenido-dir">
-    <tr class="tr_list">
-      <td class="td_play">
-        <a class="btn waves-effect waves-red" name="yo">
-          <i class="material-icons">play_arrow</i>
-        </a>
-      </td>
-      <td class="titulo">${item.titulo}</td>
-      <td class="td_clear">
-        <a href="javascript: BorrarDatos('${item.titulo}')" class="clear">
-          <i class="material-icons circle purple lighten-2">clear</i>
-        </a>
-      </td>
-    </tr>
-  </template>
-
-  <!-------------------FIN TEMPLATE----------------------------->
 
 
   <!--SCRIPTS CONTROL Y FRAMEWORK-->
@@ -168,6 +307,7 @@
     document.addEventListener("DOMContentLoaded", function () {
       var elems = document.querySelectorAll(".collapsible");
     });
+
 
     //Carga Elementos de java script Materialize
     document.addEventListener("DOMContentLoaded", function () {

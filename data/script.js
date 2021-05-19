@@ -13,7 +13,12 @@ document.querySelector('#conexionWs_off').addEventListener('click', desconectar)
 
 //Desplegables directorios emociones
 document.getElementById('Enfadado').addEventListener('click', Refresco);    //Enfadado
-document.getElementById('Disgustado').addEventListener('click', Refresco); //Disgustado
+document.getElementById('Disgustado').addEventListener('click', Refresco);  //Disgustado
+document.getElementById('Temeroso').addEventListener('click', Refresco);    //Temeroso
+document.getElementById('Feliz').addEventListener('click', Refresco);       //Feliz
+document.getElementById('Neutral').addEventListener('click', Refresco);     //Neutral
+document.getElementById('Triste').addEventListener('click', Refresco);      //Triste
+document.getElementById('Sorprendido').addEventListener('click', Refresco); //Sorprendido
 
 
 //===================FIN ELEMENTOS INSTANCIACIÓN DOMM=======================
@@ -68,23 +73,21 @@ function traerJSON_SD(){ //Reacciona a los eventos del desplegable directorios
         for (let item of content) { //Bucle rellena la tabla "Template"
           //Dibuja el HTML y llama desde el a la función "ReproducirSD", pasandole el nombre del fichero
           res.innerHTML += `
-            <tr>
-              <td>
-                <a class="btn-floating waves-effect waves-light red"
-                  href="javascript:ReproducirSD('${item.titulo}')">
-                  <i class="material-icons">play_arrow</i>
-                </a>
-              </td>
+            <td>
+              <a class="btn-floating waves-effect waves-light red lighten-1"
+                href="javascript:ReproducirSD('${item.titulo}')">
+                <i class="material-icons">play_arrow</i>
+              </a>
+            </td>
 
-              <td>${item.titulo}</td>
+            <td>${item.titulo}</td>
 
-              <td>
-                  <a class="btn-floating waves-effect waves-light purple lighten-4"
-                    href="javascript:BorrarDatos('${item.titulo}')">
-                    <i class="material-icons">clear</i>
-                </a>
-              </td>
-            </tr>
+            <td>
+              <a class="btn-floating waves-effect waves-light purple lighten-3"
+                href="javascript:BorrarDatos('${item.titulo}')">
+                <i class="material-icons">clear</i>
+              </a>
+            </td>
           `
         }
         
@@ -98,9 +101,8 @@ function traerJSON_SD(){ //Reacciona a los eventos del desplegable directorios
         //_____________Template String"________________
           //!Tabla dinámica que crea la lista con los archivos de la SD
           res.innerHTML += `
-          <tr>
             <td>
-              <a class="btn-floating waves-effect waves-light red"
+              <a class="btn-floating waves-effect waves-light red lighten-1"
                 href="javascript:ReproducirSD('${content.titulo}')">
                 <i class="material-icons">play_arrow</i>
               </a>
@@ -109,18 +111,17 @@ function traerJSON_SD(){ //Reacciona a los eventos del desplegable directorios
             <td>${content.titulo}</td>
 
             <td>
-              <a class="btn-floating waves-effect waves-light purple lighten-4"
+              <a class="btn-floating waves-effect waves-light purple lighten-1"
                 href="javascript:BorrarDatos('${content.titulo}')">
                 <i class="material-icons">clear</i>
               </a>
             </td>
-          </tr>
         `
       }
   })
   //=================== Si no hay Ficheros en el directorio ===================
   .catch(error =>{
-    console.log(error);
+    //console.log(error);
     document.getElementById(list_dir).className = "hide";
   });
 }
@@ -390,11 +391,18 @@ async function Refresco_directorio(directorio){
 
 //Reproducir sd
 function ReproducirSD(nombreFichero){
+  console.log('play');
+  document.getElementById('t_repro').className = "centered";
+  var activo = document.querySelector('#oculta_repro');
+  activo.innerHTML = `
+    <span style="color:#2196f3">${nombreFichero}</span>
+  `
   console.log(nombreFichero);
 }
 //===================== FIN REPRODUCCIÓN SD ===================
 
-//Borrado Ficheros SD
+
+//================= Borrado Ficheros SD ==========================
 //Parámetro recibido desde los botones construidos en el template string
 function BorrarDatos(nombreFichero){
   //crea un objeto para almacenar el nombre de fichero a borrar
@@ -404,10 +412,18 @@ function BorrarDatos(nombreFichero){
 
   var envioDelete = JSON.stringify(obj_clear);  //convierte el objeto en JSON
   conexionWs.send(envioDelete);  //envia el json al servidor
-  
 }
 //==================== FIN BORRADO ARCHIVOS SD =======================
 
+
+//=================== BOTÓN STOP =====================================
+function StopSD(){
+  console.log('stop');
+  document.getElementById('t_repro').className = "hide";
+  var SD_stop = '{"STOP":' + 1 + '}';
+  conexionWs.send(SD_stop);
+}
+//====================== FIN BOTÓN STOP ===========================
 
 
 /*
