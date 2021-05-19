@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!--INSTANCIACIÓN ELEMENTOS FRAMEWORK MATERIALIZE-->
+  <link rel="stylesheet" href="icon.css" />
+  <link rel="stylesheet" href="materialize.min.css" />
+
+  <title>Control Audio</title>
+</head>
+
+<body>
+  <!-------------------------BOTONES CONEXIÓN----------------------->
+  <div class="container section">
+    <div class="row">
+      <div class="col s5">
+        <a class="btn waves-effect waves-light purple lighten-4" id="conexionWs_on">
+          <i class="tiny material-icons">rss_feed</i>ON
+        </a>
+        <a class="btn disabled" id="conexionWs_off">
+          <i class="tiny material-icons">signal_wifi_off</i>OFF
+        </a>
+      </div>
+      <div class="col s7">
+        <p id="conex"></p>
+      </div>
+    </div>
+  </div>
+  <!----------------------FIN BOTONES CONEXIÓN----------------------->
+
+  <!----------------------SUBIR   ARCHIVOS----------------------------->
+  <div class="container section">
+    <div class="row">
+      <form action="" class="col s12" id="form_datos">
+        <div class="row card-panel">
+          <div class="file-field input-field col s6">
+            <div class="btn waves-effect waves-light">
+              <i class="small material-icons">folder</i>
+              <input type="file" name="archivo" id="entrada" />
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" id="campoTexto" type="text" placeholder="Escoje un Archivo" />
+            </div>
+          </div>
+
+          <div class="input-field col s6">
+            <select name="emocion_value" id="emocion_value">
+              <option value="" disable selected>Escoja una Emoción</option>
+              <option value="1">Enfadado</option>
+              <option value="2">Digustado</option>
+              <option value="3">Temeroso</option>
+              <option value="4">Feliz</option>
+              <option value="5">Neutral</option>
+              <option value="6">Triste</option>
+              <option value="7">Sorprendido</option>
+            </select>
+          </div>
+
+          <!----------------BARRA DE PROGRESO------------------------------->
+          <div class="hide" id="barra">
+            <div class="progress" id="progressBar">
+              <div class="determinate purple accent-1" id="relleno" style="width: 0%"></div>
+            </div>
+          </div>
+          <br />
+          <!-------------------FIN BARRA PROGRESO----------------------------------->
+
+          <!-------------------BOTÓN SUBIDA ARCHIVOS------------------------------------>
+          <button class="btn waves-effect waves-light right" id="Btn_subida" type="submit" name="action">
+            Subir
+            <i class="material-icons right">file_upload</i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-----------------------------FIN SUBIR ARCHIVOS--------------------------------------------->
+
+  <!------------------------------FICHEROS SD----------------------------------------------------->
+  <div class="container section">
+    <div class="row">
+      <div class="col s12">
+        <ul class="collapsible popout">
+          <!--ENFADADO-->
+          <li>
+            <div class="collapsible-header" id="Enfadado" value="1">
+              <i class="material-icons">sentiment_dissatisfied</i>
+              Enfadado
+              <span class="new badge red">4</span>
+            </div>
+            <div class="collapsible-body">
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>Play</th>
+                    <th>Título</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="list_Enfadado">
+
+                </tbody>
+              </table>
+            </div>
+          </li>
+
+          <!--DISGUSTADO-->
+          <li>
+            <div class="collapsible-header" id="Disgustado">
+              <i class="material-icons">place</i>
+              Disgustado
+              <span class="badge">1</span>
+            </div>
+            <div class="collapsible-body">
+              <table class="centered">
+                <thead>
+                  <tr>
+                    <th>Play</th>
+                    <th>Título</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="list_Disgustado">
+
+                </tbody>
+            </div>
+          </li>
+          <!--TEMEROSO-->
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!----------------------BOTON STOP---------------------------->
+
+
+  <!------------------------TEMPLATE------------------------------------>
+  <template id="template-contenido-dir">
+    <tr class="tr_list">
+      <td class="td_play">
+        <a class="btn waves-effect waves-red" name="yo">
+          <i class="material-icons">play_arrow</i>
+        </a>
+      </td>
+      <td class="titulo">${item.titulo}</td>
+      <td class="td_clear">
+        <a href="javascript: BorrarDatos('${item.titulo}')" class="clear">
+          <i class="material-icons circle purple lighten-2">clear</i>
+        </a>
+      </td>
+    </tr>
+  </template>
+
+  <!-------------------FIN TEMPLATE----------------------------->
+
+
+  <!--SCRIPTS CONTROL Y FRAMEWORK-->
+  <script src="materialize.min.js"></script>
+  <script src="script.js"></script>
+
+  <!--SCRIPTS CARGA PÁGINA-->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var elems = document.querySelectorAll(".collapsible");
+    });
+
+    //Carga Elementos de java script Materialize
+    document.addEventListener("DOMContentLoaded", function () {
+      M.AutoInit();
+    });
+  </script>
+</body>
+
+</html>
