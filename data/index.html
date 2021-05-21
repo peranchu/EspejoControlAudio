@@ -32,6 +32,7 @@
   </div>
   <!----------------------FIN BOTONES CONEXIÓN----------------------->
 
+  <!-------------------FORMULARIO-------------------------------->
   <!----------------------SUBIR   ARCHIVOS----------------------------->
   <div class="container section">
     <div class="row">
@@ -47,6 +48,7 @@
             </div>
           </div>
 
+          <!-------------- SELECTOR DE EMOCIONES--------------------------->
           <div class="input-field col s6">
             <select name="emocion_value" id="emocion_value">
               <option value="" disable selected>Escoja una Emoción</option>
@@ -79,11 +81,14 @@
     </div>
   </div>
   <!-----------------------------FIN SUBIR ARCHIVOS--------------------------------------------->
+  <!-------------------- FIN FORMULARIO-------------------------->
 
-  <!------------------------------FICHEROS SD----------------------------------------------------->
+
+  <!------------------------------REPRODUCTOR SD----------------------------------------------------->
   <div class="container section">
     <div class="row">
       <div class="col s12">
+
         <!---------------Reproductor--------------------->
         <table class="hide" id="t_repro">
           <thead>
@@ -98,6 +103,7 @@
               <td id="oculta_repro"></td>
               <!--Nombre fichero-->
               <td>
+
                 <!--slider volumen-->
                 <form action="">
                   <p class="range-field">
@@ -106,6 +112,7 @@
                 </form>
               </td>
 
+              <!--Botón STOP-->
               <td>
                 <a class="btn-floating waves-effect waves-light red lighten-1" onclick="StopSD()">
                   <i class="material-icons">stop</i>
@@ -114,10 +121,12 @@
             </tr>
           </tbody>
         </table>
-        <!--------------Fin reproductor----------------------->
       </div>
     </div>
   </div>
+  <!--------------FIN REPRODUCTOR SD----------------------->
+
+
   <!--------------ARCHIVOS DIRECTORIOS SD------------------->
   <div class="container section">
     <div class="row">

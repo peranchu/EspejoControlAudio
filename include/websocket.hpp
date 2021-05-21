@@ -3,9 +3,17 @@
 
 AsyncWebSocket ws("/ws"); //Objeto AsyncWebSocket "ws" y ruta de escucha de las peticiones del socket
 
-AsyncWebSocketClient *globalClient = NULL;
+AsyncWebSocketClient *globalClient = NULL; //cliente
+//======================
 
+//Variables generales del fichero "websocker.hpp"
+bool RefreshEstado; //Estado Botón Refresh
+bool Stop_SD_Card;  //Almacena el estado de STOP
+int Volumen;        //Almacena el Volumen de la SD
+int VolumenActual;
+int VolumenAnterior;
 const char *NombreBorrado; //Almacena el nombre del Fichero a borrar;
+const char *ArchivoPlay;   //Almacena el archivo a reproducir de la SD
 
 //Variables de acceso global, compartidas con "server.hpp"
 extern int emocion_val;                //Almacena la emocion seleccionada en el formulario del cliente
@@ -35,7 +43,24 @@ void EnvioInicial()
         globalClient->text(response); //Envía el Json al Cliente
     }
 }
-//====================FIN PETICIÓN ESTADO DE CONEXIÓN========================================
+//Fin petición Estado conexión
+
+//Envío Estado Reproducto
+void EstadoRepro()
+{
+    if (globalClient != NULL && globalClient->status() == WS_CONNECTED) //Comprueba que exista algún cliente y esté conectado
+    {
+        StaticJsonDocument<200> JsonErepro; //Crea un  documento JSON
+
+        String EstadoRepro;                       //Almacenara el JSON
+        JsonErepro["EREPRO"] = audio.isRunning(); //Pregunta por el estado de la reproducción
+        serializeJson(JsonErepro, EstadoRepro);   //crea los datos de JSON
+
+        globalClient->text(EstadoRepro); //envío al cliente
+    }
+}
+//Fin estado Reproducción
+// ================== FIN ENVIO DATOS SERVIDOR A CLIENTE =========================
 
 /*
 ========ANÁLISIS DE DATOS DE LAS CADENAS DE ENTRADA=======================================
@@ -92,6 +117,34 @@ void CadenaEntrada(String datosEntrada)
         BorradoArchivosSD(NombreBorrado); //En "archivos.hpp"
     }
     //////////////////////////////////////////////////
+
+    //Recoje la petición de Reproducción
+    int posPlay = datosEntrada.indexOf("PLAY");
+    if (posPlay >= 0)
+    {
+        ArchivoPlay = doc["PLAY"];
+        Serial.println(ArchivoPlay);
+    }
+    ///////////////////////////////////
+
+    //Recoje el mensaje STOP
+    int Stop_SD = datosEntrada.indexOf("STOP");
+    if (Stop_SD >= 0)
+    {
+        Stop_SD_Card = doc["STOP"];
+        Serial.println(Stop_SD_Card);
+        stop_Reproductor(); //Detine la reproducción, "audio.hpp"
+    }
+    ////////////////////////////
+
+    //Mensaje Control Volumen
+    int Volumen_SD = datosEntrada.indexOf("VOL");
+    if (Volumen_SD >= 0)
+    {
+        Volumen = doc["VOL"];
+        VolumenActual = GetVolume(Volumen); //Maneja el Volumen de la reproducción, "audio.hpp"
+    }
+    ////////////////////////////
 }
 /*
 ====================FIN ANÁLISIS CADENA DE ENTRADA=============================

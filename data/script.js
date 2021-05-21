@@ -11,6 +11,8 @@ var progress = document.getElementById('relleno'); //instancia a barra de progre
 document.querySelector('#conexionWs_on').addEventListener('click', conexion_WS); //Boton conexion ON
 document.querySelector('#conexionWs_off').addEventListener('click', desconectar); //Boton desconexion OFF
 
+document.querySelector('#vol').addEventListener('change', envioVolumen); //Slider Volumen
+
 //Desplegables directorios emociones
 document.getElementById('Enfadado').addEventListener('click', Refresco);    //Enfadado
 document.getElementById('Disgustado').addEventListener('click', Refresco);  //Disgustado
@@ -100,6 +102,7 @@ function traerJSON_SD(){ //Reacciona a los eventos del desplegable directorios
 
         //_____________Template String"________________
           //!Tabla dinámica que crea la lista con los archivos de la SD
+          //Botón Reproductir, nombre fichero, botón eliminar
           res.innerHTML += `
             <td>
               <a class="btn-floating waves-effect waves-light red lighten-1"
@@ -125,7 +128,7 @@ function traerJSON_SD(){ //Reacciona a los eventos del desplegable directorios
     document.getElementById(list_dir).className = "hide";
   });
 }
-
+//==================== FIN LLAMADA JSON ====================================
 
 
 
@@ -322,7 +325,7 @@ function conexion_WS() {
   conexionWs.onmessage = function (event) {  //Cuando se recibe algún mensaje desde el Servidor
     console.log("Server: ", event.data);
 
-    var datosINServidor = event.data;
+    var datosINServidor = event.data;         //Reecoje los datos que llegan del Servidor
     dataJson = JSON.parse(datosINServidor);   //Variable global almacena el mensaje del Servidor y lo convierte a JSON
 
     //*-------COMPROBACIÓN DEL TIPO DE MENSAJE QUE LLEGA DESDE EL SERVIDOR----------------------
@@ -332,7 +335,7 @@ function conexion_WS() {
     }
 
     //Datos del estado de Reproducción recibidos desde el Servidor
-    if("EREPRO" in dataJson){
+    if("EREPRO" in dataJson){  //Si encuenta la cadena "EREPRO" dentro del JSON
       EstadoReproduccion();    //Recive el estado de reproducción de la SD
     }
   };
@@ -363,40 +366,49 @@ function desconectar() { //Llamada desde le botón Conexión OFF
  */
 
 
-
  /*
 ===============FUNCIONES ENVIO MENSAJES SOCKET==============================
 */
 //Envía el nombre del fichero de audio y la emoción seleccionada en el formulario
 function Audio_emo(audio, emocion){
-  var audioEmo = {
-    NOMBRE_AUDIO_FORM: audio,
+  var audioEmo = {                //Objeto que recoje el nombre de la pista                    
+    NOMBRE_AUDIO_FORM: audio,     //y la emoción seleccionadas en el formulario
     EMO_FORM: emocion
   };
 
-  var envioAudioEmo = JSON.stringify(audioEmo);
+  var envioAudioEmo = JSON.stringify(audioEmo);  //Convertido a JSON
   console.log(envioAudioEmo);
-  conexionWs.send(envioAudioEmo);
+  conexionWs.send(envioAudioEmo);  //Enviado al server
 }
+//==============================
 
 //Envio peticón de refresco listado de Archivos según el directorio de la SD
 async function Refresco_directorio(directorio){
   var Refresh_directorio = {
     REFRESH: directorio
   };
+
   var jsonrefresh = JSON.stringify(Refresh_directorio);
   console.log(jsonrefresh);
   conexionWs.send(jsonrefresh);
 }
+//==============================
 
 //Reproducir sd
 function ReproducirSD(nombreFichero){
-  console.log('play');
+  //Pinta en Pantalla el Reproductor
   document.getElementById('t_repro').className = "centered";
   var activo = document.querySelector('#oculta_repro');
   activo.innerHTML = `
     <span style="color:#2196f3">${nombreFichero}</span>
   `
+  //Envía el server la orden de reproducción del fichero seleccionado
+  var objeto_repro = {
+    PLAY: nombreFichero
+  };
+  //Convierte a JSON y envía
+  var envioPlay = JSON.stringify(objeto_repro);
+  conexionWs.send(envioPlay);
   console.log(nombreFichero);
 }
 //===================== FIN REPRODUCCIÓN SD ===================
@@ -425,6 +437,15 @@ function StopSD(){
 }
 //====================== FIN BOTÓN STOP ===========================
 
+//=================== CONTROL VOLUMEN ===============
+function envioVolumen(){
+  const volumenSD = document.querySelector('#vol').value;  //Recoje el Valor del Slider
+  console.log(volumenSD);
+  var envioVolumenSD = '{"VOL":'+ volumenSD +'}';
+  conexionWs.send(envioVolumenSD);
+}
+/////////////////////////////////
+
 
 /*
 =======================PETICIONES DATOS AL SERVIDOR==================================
@@ -448,3 +469,12 @@ function EstadoConexion() {   //Captura los datos desde el JSON que el servidor 
   }
 }
 //=======================FIN ESTADO CONEXIÓN==========================================
+
+//Estado de Reproducción
+function EstadoReproduccion(){
+  var EstadoRepro = dataJson.EREPRO;
+  console.log(EstadoRepro);
+  document.getElementById('t_repro').className = "hide";  //Borra el reproductor
+}
+//fin Estado de Reproducción
+//===================== FIN PETICIONES DATOS AL SERVIDOR ========================

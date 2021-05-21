@@ -10,6 +10,7 @@
 #include <Audio.h>
 
 //Ficheros Carpeta include
+#include "audio.hpp"
 #include "config.h"
 #include "server.hpp"
 #include "ESP32_utils.hpp"
